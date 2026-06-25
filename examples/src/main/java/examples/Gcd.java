@@ -1,13 +1,13 @@
 package examples;
 
-import static io.github.kawamuray.wasmtime.WasmValType.I32;
+import static io.github.u2400.wasmtime.WasmValType.I32;
 import static java.util.Collections.emptyList;
 
-import io.github.kawamuray.wasmtime.Func;
-import io.github.kawamuray.wasmtime.Instance;
-import io.github.kawamuray.wasmtime.Module;
-import io.github.kawamuray.wasmtime.Store;
-import io.github.kawamuray.wasmtime.WasmFunctions;
+import io.github.u2400.wasmtime.Func;
+import io.github.u2400.wasmtime.Instance;
+import io.github.u2400.wasmtime.Module;
+import io.github.u2400.wasmtime.Store;
+import io.github.u2400.wasmtime.WasmFunctions;
 
 public class Gcd {
     public static void main(String[] args) {

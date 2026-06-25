@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-ARG TOOLCHAIN=nightly-2022-12-11
+ARG TOOLCHAIN=nightly-2023-09-01
 
 RUN apt-get update && apt-get install -y curl git gcc openjdk-8-jdk-headless gcc-aarch64-linux-gnu ca-certificates
 

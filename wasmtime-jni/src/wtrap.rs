@@ -42,9 +42,9 @@ pub fn into_java<'a>(env: &mut JNIEnv<'a>, trap: &Trap) -> jni::errors::Result<J
     };
 
     env.get_static_field(
-        "io/github/kawamuray/wasmtime/Trap",
+        "io/github/u2400/wasmtime/Trap",
         name,
-        "Lio/github/kawamuray/wasmtime/Trap;",
+        "Lio/github/u2400/wasmtime/Trap;",
     )?
     .l()
 }

@@ -1,22 +1,22 @@
 package examples;
 
-import static io.github.kawamuray.wasmtime.WasmValType.I32;
-import static io.github.kawamuray.wasmtime.WasmValType.I64;
+import static io.github.u2400.wasmtime.WasmValType.I32;
+import static io.github.u2400.wasmtime.WasmValType.I64;
 
 import java.nio.ByteBuffer;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-import io.github.kawamuray.wasmtime.Extern;
-import io.github.kawamuray.wasmtime.Func;
-import io.github.kawamuray.wasmtime.Linker;
-import io.github.kawamuray.wasmtime.Memory;
-import io.github.kawamuray.wasmtime.Module;
-import io.github.kawamuray.wasmtime.Store;
-import io.github.kawamuray.wasmtime.WasmFunctions;
-import io.github.kawamuray.wasmtime.WasmFunctions.Consumer0;
-import io.github.kawamuray.wasmtime.wasi.WasiCtx;
-import io.github.kawamuray.wasmtime.wasi.WasiCtxBuilder;
+import io.github.u2400.wasmtime.Extern;
+import io.github.u2400.wasmtime.Func;
+import io.github.u2400.wasmtime.Linker;
+import io.github.u2400.wasmtime.Memory;
+import io.github.u2400.wasmtime.Module;
+import io.github.u2400.wasmtime.Store;
+import io.github.u2400.wasmtime.WasmFunctions;
+import io.github.u2400.wasmtime.WasmFunctions.Consumer0;
+import io.github.u2400.wasmtime.wasi.WasiCtx;
+import io.github.u2400.wasmtime.wasi.WasiCtxBuilder;
 
 public class MemoryInterop {
     // Build it with `cargo wasi build`

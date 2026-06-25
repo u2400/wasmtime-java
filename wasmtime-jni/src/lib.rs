@@ -2,30 +2,30 @@
 mod errors;
 #[macro_use]
 #[allow(non_snake_case)]
-mod io_github_kawamuray_wasmtime_Config;
+mod io_github_u2400_wasmtime_Config;
 pub(crate) mod interop;
 #[allow(non_snake_case)]
-mod io_github_kawamuray_wasmtime_Caller;
+mod io_github_u2400_wasmtime_Caller;
 #[allow(non_snake_case)]
-mod io_github_kawamuray_wasmtime_Engine;
+mod io_github_u2400_wasmtime_Engine;
 #[allow(non_snake_case)]
-mod io_github_kawamuray_wasmtime_Func;
+mod io_github_u2400_wasmtime_Func;
 #[allow(non_snake_case)]
-mod io_github_kawamuray_wasmtime_Global;
+mod io_github_u2400_wasmtime_Global;
 #[allow(non_snake_case)]
-mod io_github_kawamuray_wasmtime_Instance;
+mod io_github_u2400_wasmtime_Instance;
 #[allow(non_snake_case)]
-mod io_github_kawamuray_wasmtime_Linker;
+mod io_github_u2400_wasmtime_Linker;
 #[allow(non_snake_case)]
-mod io_github_kawamuray_wasmtime_Memory;
+mod io_github_u2400_wasmtime_Memory;
 #[allow(non_snake_case)]
-mod io_github_kawamuray_wasmtime_Module;
+mod io_github_u2400_wasmtime_Module;
 #[allow(non_snake_case)]
-mod io_github_kawamuray_wasmtime_Store;
+mod io_github_u2400_wasmtime_Store;
 #[allow(non_snake_case)]
-mod io_github_kawamuray_wasmtime_wasi_WasiCtx;
+mod io_github_u2400_wasmtime_wasi_WasiCtx;
 #[allow(non_snake_case)]
-mod io_github_kawamuray_wasmtime_wasi_WasiCtxBuilder;
+mod io_github_u2400_wasmtime_wasi_WasiCtxBuilder;
 mod store;
 pub(crate) mod utils;
 mod wasi_utils;
