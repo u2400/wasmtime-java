@@ -3,7 +3,7 @@ use jni::objects::JObject;
 use jni::JNIEnv;
 use wasmtime::Mutability;
 
-pub const MUT_TYPE: &str = "io/github/kawamuray/wasmtime/Mutability";
+pub const MUT_TYPE: &str = "io/github/u2400/wasmtime/Mutability";
 
 pub fn mutability_into_java<'a>(
     env: &mut JNIEnv<'a>,
@@ -16,7 +16,7 @@ pub fn mutability_into_java<'a>(
 }
 
 fn mutability_from_enum<'a>(env: &mut JNIEnv<'a>, mutability: &str) -> Result<JObject<'a>> {
-    const MUT_TYPE_RETURN: &str = "Lio/github/kawamuray/wasmtime/Mutability;";
+    const MUT_TYPE_RETURN: &str = "Lio/github/u2400/wasmtime/Mutability;";
     Ok(env
         .get_static_field(MUT_TYPE, mutability, MUT_TYPE_RETURN)?
         .l()?)

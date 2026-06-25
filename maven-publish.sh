@@ -12,7 +12,7 @@ cd $(dirname $0)
 
 filename="wasmtime-java-${version}-universal.jar"
 
-curl --fail -L "https://github.com/kawamuray/wasmtime-java/releases/download/v${version}/${filename}" -o "build/libs/$filename"
+curl --fail -L "https://github.com/u2400/wasmtime-java/releases/download/v${version}/${filename}" -o "build/libs/$filename"
 echo -n "MD5 $filename: "
 md5sum < "build/libs/$filename"
 
