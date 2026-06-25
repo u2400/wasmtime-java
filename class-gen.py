@@ -21,7 +21,7 @@ def to_wasms(i):
     return ", ".join(["a{0}.toWasmVal(arg{0})".format(x) for x in range(i)])
 
 print("""// Automatically generated. DO NOT EDIT.
-package io.github.kawamuray.wasmtime;
+package io.github.u2400.wasmtime;
 
 import java.util.Arrays;
 

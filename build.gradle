@@ -8,8 +8,8 @@ plugins {
     id "de.undercouch.download" version "4.1.1"
 }
 
-group = 'io.github.kawamuray.wasmtime'
-version = '0.19.0'
+group = 'io.github.u2400.wasmtime'
+version = '0.0.1-beta.1'
 
 repositories {
     mavenCentral()
@@ -74,8 +74,12 @@ static def jniLibOsClassifier() {
 
 static def jniLibArchClassifier() {
     def target = rustTargetTriple() ?: ""
-    // Use the first part of the rust target triple as the arch classifier if set, otherwise assume "x86_64"
-    return target ? target.split("-")[0] : "x86_64"
+    if (target) {
+        return target.split("-")[0]
+    }
+    // Auto-detect from the running JVM's architecture
+    def arch = System.getProperty("os.arch").toLowerCase()
+    return (arch == "aarch64" || arch == "arm64") ? "aarch64" : "x86_64"
 }
 
 static def rustTargetTriple() {
@@ -123,18 +127,18 @@ task unzipJavah4x(type: Copy) {
 
 task generateJniInterfaces(type:JavaExec) {
     def targets = [
-            'io.github.kawamuray.wasmtime.Engine',
-            'io.github.kawamuray.wasmtime.Func',
-            'io.github.kawamuray.wasmtime.Instance',
-            'io.github.kawamuray.wasmtime.Linker',
-            'io.github.kawamuray.wasmtime.Memory',
-            'io.github.kawamuray.wasmtime.Global',
-            'io.github.kawamuray.wasmtime.Module',
-            'io.github.kawamuray.wasmtime.Store',
-            'io.github.kawamuray.wasmtime.Config',
-            'io.github.kawamuray.wasmtime.Caller',
-            'io.github.kawamuray.wasmtime.wasi.WasiCtx',
-            'io.github.kawamuray.wasmtime.wasi.WasiCtxBuilder']
+            'io.github.u2400.wasmtime.Engine',
+            'io.github.u2400.wasmtime.Func',
+            'io.github.u2400.wasmtime.Instance',
+            'io.github.u2400.wasmtime.Linker',
+            'io.github.u2400.wasmtime.Memory',
+            'io.github.u2400.wasmtime.Global',
+            'io.github.u2400.wasmtime.Module',
+            'io.github.u2400.wasmtime.Store',
+            'io.github.u2400.wasmtime.Config',
+            'io.github.u2400.wasmtime.Caller',
+            'io.github.u2400.wasmtime.wasi.WasiCtx',
+            'io.github.u2400.wasmtime.wasi.WasiCtxBuilder']
     dependsOn 'unzipJavah4x', 'compileJava'
     // JNI shared object isn't available at this stage
     environment 'WASMTIME_JNI_LOAD_DISABLED', '1'
@@ -221,11 +225,11 @@ publishing {
             pom {
                 name = 'wasmtime-java'
                 description = 'Java or JVM-language binding for Wasmtime'
-                url = 'https://github.com/kawamuray/wasmtime-java'
+                url = 'https://github.com/u2400/wasmtime-java'
                 scm {
-                    url = 'https://github.com/kawamuray/wasmtime-java.git'
-                    connection = 'scm:https://github.com/kawamuray/wasmtime-java.git'
-                    developerConnection = 'scm:git@github.com:kawamuray/wasmtime-java.git'
+                    url = 'https://github.com/u2400/wasmtime-java.git'
+                    connection = 'scm:https://github.com/u2400/wasmtime-java.git'
+                    developerConnection = 'scm:git@github.com:u2400/wasmtime-java.git'
                 }
                 licenses {
                     license {
@@ -235,8 +239,7 @@ publishing {
                 }
                 developers {
                     developer {
-                        name = 'Yuto Kawamura'
-                        email = 'kawamuray.dadada@gmail.com'
+                        name = 'u2400'
                     }
                 }
                 withXml { xml ->

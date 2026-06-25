@@ -6,11 +6,11 @@ use jni::sys::jobjectArray;
 use jni::JNIEnv;
 use wasmtime::{Val, ValType};
 
-pub const VAL_TYPE: &str = "io/github/kawamuray/wasmtime/Val$Type";
+pub const VAL_TYPE: &str = "io/github/u2400/wasmtime/Val$Type";
 
 pub fn from_java<'a>(env: &mut JNIEnv<'a>, obj: JObject<'a>) -> Result<Val> {
     let ty = env
-        .get_field(&obj, "type", "Lio/github/kawamuray/wasmtime/Val$Type;")?
+        .get_field(&obj, "type", "Lio/github/u2400/wasmtime/Val$Type;")?
         .l()?;
     let name = utils::enum_name(env, ty)?;
     Ok(match name.as_str() {
@@ -38,33 +38,33 @@ pub fn into_java<'a>(env: &mut JNIEnv<'a>, val: Val) -> Result<JObject<'a>> {
     Ok(match val {
         Val::I32(v) => env
             .call_static_method(
-                "io/github/kawamuray/wasmtime/Val",
+                "io/github/u2400/wasmtime/Val",
                 "fromI32",
-                "(I)Lio/github/kawamuray/wasmtime/Val;",
+                "(I)Lio/github/u2400/wasmtime/Val;",
                 &[v.into()],
             )?
             .l()?,
         Val::I64(v) => env
             .call_static_method(
-                "io/github/kawamuray/wasmtime/Val",
+                "io/github/u2400/wasmtime/Val",
                 "fromI64",
-                "(J)Lio/github/kawamuray/wasmtime/Val;",
+                "(J)Lio/github/u2400/wasmtime/Val;",
                 &[v.into()],
             )?
             .l()?,
         Val::F32(v) => env
             .call_static_method(
-                "io/github/kawamuray/wasmtime/Val",
+                "io/github/u2400/wasmtime/Val",
                 "fromF32",
-                "(F)Lio/github/kawamuray/wasmtime/Val;",
+                "(F)Lio/github/u2400/wasmtime/Val;",
                 &[f32::from_bits(v).into()],
             )?
             .l()?,
         Val::F64(v) => env
             .call_static_method(
-                "io/github/kawamuray/wasmtime/Val",
+                "io/github/u2400/wasmtime/Val",
                 "fromF64",
-                "(D)Lio/github/kawamuray/wasmtime/Val;",
+                "(D)Lio/github/u2400/wasmtime/Val;",
                 &[f64::from_bits(v).into()],
             )?
             .l()?,
@@ -85,7 +85,7 @@ pub fn type_from_java(env: &mut JNIEnv, obj: JObject) -> Result<ValType> {
 
 fn type_from_enum<'a>(env: &mut JNIEnv<'a>, ty: &'a str) -> Result<JObject<'a>> {
     Ok(env
-        .get_static_field(VAL_TYPE, ty, "Lio/github/kawamuray/wasmtime/Val$Type;")?
+        .get_static_field(VAL_TYPE, ty, "Lio/github/u2400/wasmtime/Val$Type;")?
         .l()?)
 }
 

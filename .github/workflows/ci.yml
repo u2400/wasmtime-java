@@ -11,6 +11,7 @@ jobs:
     name: Build JNI lib for ${{ matrix.build }}
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         include:
           - build: x86_64-linux
@@ -22,6 +23,7 @@ jobs:
             docker: true
           - build: x86_64-macos
             os: macos-latest
+            target: x86_64-apple-darwin
           - build: aarch64-macos
             os: macos-latest
             target: aarch64-apple-darwin
@@ -30,14 +32,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+      uses: actions/setup-java@v4
       with:
-        java-version: 1.8
+        java-version: '8'
+        distribution: 'temurin' # 或者 'zulu'
+        architecture: x64
     - name: Set up Rust
-      uses: actions-rs/toolchain@v1
+      uses: dtolnay/rust-toolchain@master
       with:
-        toolchain: nightly-2022-12-11
-        override: true
+        toolchain: 1.94.1
         components: rustfmt
     # Binary compatibility settings from bytecodealliance/wasmtime
     - name: Binary compatibility settings (macOS)
@@ -75,45 +78,37 @@ jobs:
         file build/jni-libs/*
     - name: Save JNI lib output
       if: startsWith(github.ref, 'refs/tags/')
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
-        name: jni-libs
+        name: jni-libs-${{ matrix.build }}
         path: build/jni-libs/*
   publish:
     if: startsWith(github.ref, 'refs/tags/')
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+    - uses: actions/checkout@v4
+    - name: Set up JDK 8
+      uses: actions/setup-java@v4
       with:
-        java-version: 1.8
+        java-version: '8'
+        distribution: 'zulu'
     - name: Restore JNI libs
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4
       with:
-        name: jni-libs
+        pattern: jni-libs-*
         path: build/jni-libs
+        merge-multiple: true
     - name: Build universal jar
       run: ./gradlew universalJar -x buildJniLib -x copyJniLib
-    - name: Create release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: ${{ github.ref }}
     - id: get-tag-version
       run: |
-        version=$(echo ${{github.ref}} | cut -f3 -d/ | sed 's/^v//')
-        echo "::set-output name=version::$version"
-    - name: Upload release asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        version=$(echo ${{ github.ref }} | cut -f3 -d/ | sed 's/^v//')
+        echo "version=$version" >> $GITHUB_OUTPUT
+    - name: Create release and upload asset
+      uses: softprops/action-gh-release@v3
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: build/libs/wasmtime-java-${{ steps.get-tag-version.outputs.version }}-universal.jar
-        asset_name: wasmtime-java-${{ steps.get-tag-version.outputs.version }}-universal.jar
-        asset_content_type: application/octet-stream
+        files: build/libs/wasmtime-java-*-universal.jar
+        token: ${{ secrets.GITHUB_TOKEN }}

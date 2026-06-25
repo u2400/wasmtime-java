@@ -59,14 +59,14 @@ unsafe impl<'a> Desc<'a, JThrowable<'a>> for Error {
                 }
             }
             Wasmtime(e) => (
-                "io/github/kawamuray/wasmtime/WasmtimeException",
+                "io/github/u2400/wasmtime/WasmtimeException",
                 e.to_string(),
             ),
             WasmTrap(trap) => {
                 let jtrap = wtrap::into_java(env, trap)?;
                 let jtrap_ex = env.new_object(
-                    "io/github/kawamuray/wasmtime/WasmFunctionError$TrapError",
-                    "(Lio/github/kawamuray/wasmtime/Trap;)V",
+                    "io/github/u2400/wasmtime/WasmFunctionError$TrapError",
+                    "(Lio/github/u2400/wasmtime/Trap;)V",
                     &[(&jtrap).into()],
                 )?;
                 return Ok(jtrap_ex.into());
@@ -74,21 +74,21 @@ unsafe impl<'a> Desc<'a, JThrowable<'a>> for Error {
             WasiI32ExitCode(exit_code) => {
                 return Ok(env
                     .new_object(
-                        "io/github/kawamuray/wasmtime/WasmFunctionError$I32ExitError",
+                        "io/github/u2400/wasmtime/WasmFunctionError$I32ExitError",
                         "(I)V",
                         &[(*exit_code).into()],
                     )?
                     .into())
             }
             WasiConfig(e) => (
-                "io/github/kawamuray/wasmtime/WasmtimeException",
+                "io/github/u2400/wasmtime/WasmtimeException",
                 e.to_string(),
             ),
             Io(_) | UnknownEnum(_) | NotImplemented | LockPoison(_) => {
                 ("java/lang/RuntimeException", self.to_string())
             }
             Wasi(e) => (
-                "io/github/kawamuray/wasmtime/WasmtimeException",
+                "io/github/u2400/wasmtime/WasmtimeException",
                 e.to_string(),
             ),
         };
